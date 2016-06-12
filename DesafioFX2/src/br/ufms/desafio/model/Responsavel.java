@@ -40,5 +40,12 @@ public class Responsavel extends Usuario{
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    /**
+     * @return the dataNascimento
+     */
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
     
 }

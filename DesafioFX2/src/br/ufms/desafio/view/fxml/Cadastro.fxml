@@ -68,7 +68,7 @@
                     </rowConstraints>
                      <children>
                         <Label fx:id="nascimentoLabel" alignment="CENTER" text="Data de nascime: " visible="false" wrapText="true" GridPane.columnIndex="3" />
-                        <DatePicker fx:id="nascimentoDataPicker" nodeOrientation="LEFT_TO_RIGHT" onAction="#printar" visible="false" GridPane.columnIndex="2" />
+                        <DatePicker fx:id="nascimentoDataPicker" nodeOrientation="LEFT_TO_RIGHT" visible="false" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>
                       <GridPane alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" vgap="20.0" HBox.hgrow="ALWAYS">

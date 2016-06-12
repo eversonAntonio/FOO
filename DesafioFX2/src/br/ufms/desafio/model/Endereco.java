@@ -70,4 +70,46 @@ public class Endereco {
     public void setCep(String cep) {
         this.cep = cep;
     }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @return the numero
+     */
+    public int getNumero() {
+        return numero;
+    }
+
+    /**
+     * @return the municipio
+     */
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    /**
+     * @return the logradouro
+     */
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    /**
+     * @return the bairro
+     */
+    public String getBairro() {
+        return bairro;
+    }
+
+    /**
+     * @return the cep
+     */
+    public String getCep() {
+        return cep;
+    }
 }

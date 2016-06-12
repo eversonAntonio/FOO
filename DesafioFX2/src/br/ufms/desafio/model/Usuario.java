@@ -110,5 +110,47 @@ public class Usuario {
     public void setTelefone(Telefone telefone) {
         this.telefone = telefone;
     }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @return the nomeUsuario
+     */
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    /**
+     * @return the dataCriacao
+     */
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @return the endereco
+     */
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    /**
+     * @return the tipo
+     */
+    public char getTipo() {
+        return tipo;
+    }
     
 }

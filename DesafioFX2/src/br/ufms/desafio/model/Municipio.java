@@ -46,4 +46,11 @@ public class Municipio {
     public void setUf(String uf) {
         this.uf = uf;
     }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Usuário
+ * Copyright (C) 2016 Cliente
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,43 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.ufms.desafio.model;
+package br.ufms.desafio.controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
 /**
+ * FXML Controller class
  *
- * @author Usuário
+ * @author Cliente
  */
-public class Telefone {
-
-    private int numero;
-    private int idUsuario;
+public class MenuResponsavelController implements Initializable {
 
     /**
-     * @param numero the numero to set
+     * Initializes the controller class.
      */
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    /**
-     * @param idUsuario the idUsuario to set
-     */
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    /**
-     * @return the numero
-     */
-    public int getNumero() {
-        return numero;
-    }
-
-    /**
-     * @return the idUsuario
-     */
-    public int getIdUsuario() {
-        return idUsuario;
-    }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
     
 }

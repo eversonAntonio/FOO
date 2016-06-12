@@ -16,7 +16,6 @@
  */
 package br.ufms.desafio.controller;
 
-import br.ufms.desafio.app.DesafioFXApp2;
 import br.ufms.desafio.conexao.Conexao;
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +61,7 @@ public class LoginController implements Initializable {
     @FXML
     private void logar(ActionEvent event) {
         try {
-            res = Conexao.consultaBanco("select senha from usuario where nomeUsuario='"+usuarioEdit.getText()+"'");
+            res = Conexao.consultaBanco("select senha from usuario where nomeusuario='"+usuarioEdit.getText()+"'");
             res.next();
             if (res.getRow()==0){
                 Alert dialogoErro = new Alert(Alert.AlertType.ERROR);
@@ -70,14 +69,25 @@ public class LoginController implements Initializable {
                 dialogoErro.setContentText("Login inválido!");
                 dialogoErro.setHeaderText("");
                 dialogoErro.showAndWait();
-            } else if (res.getString("senha").equals(senhaEdit.getText())){
+            } else if (!res.getString("senha").equals(senhaEdit.getText())){
                 Alert dialogoErro = new Alert(Alert.AlertType.ERROR);
                 dialogoErro.setTitle("Erro");
                 dialogoErro.setContentText("Senha inválida!");
                 dialogoErro.setHeaderText("");
                 dialogoErro.showAndWait();
             } else {
-                
+                FXMLLoader loader = new FXMLLoader();
+                Parent root = null;
+                try {
+                    root = (Parent) loader.load(getClass().getClassLoader().getResourceAsStream(
+                        "br/ufms/desafio/view/fxml/MenuResponsavel.fxml"));
+                } catch (IOException ex){
+                    System.out.println(ex);
+                }
+                Scene cena = new Scene(root);
+                Stage janelaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                janelaAtual.setScene(cena);
+                janelaAtual.centerOnScreen();
             }
         } catch (SQLException ex){
             System.err.println(ex);

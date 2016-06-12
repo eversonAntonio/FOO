@@ -34,6 +34,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -120,63 +121,99 @@ public class CadastroController implements Initializable {
 
     @FXML
     private void chamaCenaLogin(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader();
-        Parent root = null;
-        try {
-            root = (Parent) loader.load(getClass().getClassLoader().getResourceAsStream(
-                "br/ufms/desafio/view/fxml/Login.fxml"));
-        } catch (IOException ex){
-            System.err.println(ex);
-        }
-        Scene cena = new Scene(root);
-        Stage janelaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        janelaAtual.setScene(cena);
-        janelaAtual.centerOnScreen();
-    }
-
-    private void cadastraUsuario(ActionEvent event) {
+        
         if (usuarioTipo.getValue().equals("Aluno")){
-            
+            System.out.println("1");
         } else if (usuarioTipo.getValue().equals("Escola")){
-            
+            System.out.println("2");
         } else if (usuarioTipo.getValue().equals("Professor")){
-            
+            System.out.println("3");
         } else {
-            Responsavel responsa = new Responsavel();
-            responsa.setDataCriacao(LocalDate.now());
-            responsa.setDataNascimento(nascimentoDataPicker.getValue());
-            responsa.setEmail(emailEdit.getText());
-            Endereco end = new Endereco();
-            end.setBairro(bairroEdit.getText());
-            end.setCep(cepEdit.getText());
-            rs = Conexao.consultaBanco("select id from municipio where uf='"+ufEdit.getText().toUpperCase()+"'"
-                    + "and cidade='"+cidadeEdit.getText().toUpperCase()+"'");
-            try {
-                rs.next();
-                end.setId(rs.getInt("id"));
-            } catch (Exception e) {
-                System.err.println(e);
+            System.out.println("4");
+            if (!nascimentoDataPicker.getValue().equals("") && !emailEdit.getText().equals("") &&
+                    !bairroEdit.getText().equals("") && !cepEdit.getText().equals("") &&
+                    !ufEdit.getText().equals("") && !cidadeEdit.getText().equals("") &&
+                    !logradouroEdit.getText().equals("") && !numeroEdit.getText().equals("") &&
+                    !idEdit.getText().equals("") && !nomeEdit.getText().equals("") &&
+                    !usuarioEdit.getText().equals("") && !senhaEdit.getText().equals("") &&
+                    !telefoneEdit.getText().equals("")){
+                Responsavel responsa = new Responsavel();
+                responsa.setDataCriacao(LocalDate.now());
+                responsa.setDataNascimento(nascimentoDataPicker.getValue());
+                responsa.setEmail(emailEdit.getText());
+                Endereco end = new Endereco();
+                end.setBairro(bairroEdit.getText());
+                end.setCep(cepEdit.getText());
+                System.out.println("vai consultar");
+                rs = Conexao.consultaBanco("select id from municipio where uf='"+ufEdit.getText().toUpperCase()+"'"
+                        + "and nome='"+cidadeEdit.getText().toUpperCase()+"'");
+                try {
+                    rs.next();
+                    end.setId(rs.getInt("id"));
+                    System.out.println("consultou");
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+                Municipio mun = new Municipio();
+                try {
+                    mun.setId(rs.getInt("id"));
+                } catch (SQLException ex) {
+                    System.err.println(ex);
+                }
+                mun.setNome(cidadeEdit.getText());
+                mun.setUf(ufEdit.getText());
+                end.setIdMunicipio(mun);
+                end.setLogradouro(logradouroEdit.getText());
+                end.setNumero(Integer.parseInt(numeroEdit.getText()));
+                responsa.setEndereco(end);
+                responsa.setId(Integer.parseInt(idEdit.getText()));
+                responsa.setIdUsuario(Integer.parseInt(idEdit.getText()));
+                responsa.setNome(nomeEdit.getText());
+                responsa.setNomeUsuario(usuarioEdit.getText());
+                responsa.setSenha(senhaEdit.getText());
+                Telefone tel = new Telefone();
+                tel.setIdUsuario(Integer.parseInt(idEdit.getText()));
+                tel.setNumero(Integer.parseInt(telefoneEdit.getText()));
+                responsa.setTelefone(tel);
+                responsa.setTipo('R');
+                rs = Conexao.consultaBanco("insert into endereco values('"+end.getId()+"',"
+                        + "'"+end.getNumero()+"', '"+end.getMunicipio().getId()+"',"
+                        + "'"+end.getLogradouro()+"', '"+end.getBairro()+"',"
+                        + "'"+end.getCep()+"')");
+                rs = Conexao.consultaBanco("insert into usuario values('"+responsa.getId()+"',"
+                        + "'"+responsa.getNome()+"', '"+responsa.getNomeUsuario()+"',"
+                        + "'"+responsa.getSenha()+"', '"+responsa.getDataCriacao()+"',"
+                        + "'"+responsa.getEmail()+"', '"+responsa.getEndereco().getId()+"',"
+                        + "'"+responsa.getTipo()+"')");
+                rs = Conexao.consultaBanco("insert into telefone values('"+tel.getNumero()+"',"
+                        + "'"+tel.getIdUsuario()+"')");
+                rs = Conexao.consultaBanco("insert into responsavel values('"+responsa.getId()+"',"
+                        + "'"+responsa.getDataNascimento()+"')");
+                Alert dialogoErro = new Alert(Alert.AlertType.INFORMATION);
+                dialogoErro.setTitle("Sucesso");
+                dialogoErro.setHeaderText(null);
+                dialogoErro.setContentText("Data inserida no banco.");
+                dialogoErro.showAndWait();
+                FXMLLoader loader = new FXMLLoader();
+                Parent root = null;
+                try {
+                    root = (Parent) loader.load(getClass().getClassLoader().getResourceAsStream(
+                        "br/ufms/desafio/view/fxml/Login.fxml"));
+                } catch (IOException ex){
+                    System.err.println(ex);
+                }
+                Scene cena = new Scene(root);
+                Stage janelaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                janelaAtual.setScene(cena);
+                janelaAtual.centerOnScreen();
+            } else {
+                Alert dialogoErro = new Alert(Alert.AlertType.ERROR);
+                dialogoErro.setTitle("Erro");
+                dialogoErro.setContentText("Preencha todos os campos!");
+                dialogoErro.setHeaderText("");
+                dialogoErro.showAndWait();
             }
-            responsa.setNome(nomeEdit.getText());
-            responsa.setNomeUsuario(usuarioEdit.getText());
-            responsa.setSenha(senhaEdit.getText());
-            responsa.setTipo('R');
-            responsa.setIdUsuario(Integer.parseInt(idEdit.getText()));
-            responsa.setId(Integer.parseInt(idEdit.getText()));
-            Municipio mun = new Municipio();
-            mun.setNome(cidadeEdit.getText());
-            mun.setUf(ufEdit.getText());
-//            mun.setId(rs.getInt("id"));
-            end.setIdMunicipio(mun);
-            end.setLogradouro(logradouroEdit.getText());
-            end.setNumero(Integer.parseInt(numeroEdit.getText()));
-            responsa.setEndereco(end);
-            Telefone tel = new Telefone();
-            tel.setIdUsuario(Integer.parseInt(idEdit.getText()));
-            tel.setNumero(Integer.parseInt(telefoneEdit.getText()));
-            responsa.setTelefone(tel);
         }
-        chamaCenaLogin(event);
     }
     
     /**
